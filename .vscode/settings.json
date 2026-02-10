@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "*.v": "verilog",
+        "*.vh": "verilog",
+        "*.xdc": "tcl"
+    },
+    "files.exclude": {
+        "**/build": true,
+        "**/.Xil": true,
+        "**/*.jou": true,
+        "**/*.log": true
+    },
+    "verilog.linting.linter": "none",
+    "verilog.formatting.verilogHDL.formatter": "verilog-format"
+}

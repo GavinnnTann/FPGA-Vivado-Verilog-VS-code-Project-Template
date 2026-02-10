@@ -1,0 +1,79 @@
+# ===================================================================
+# FPGA Project Template - Git Ignore File
+# ===================================================================
+
+# Vivado build artifacts
+build/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.sim/
+*.runs/
+.Xil/
+
+# Vivado project files (generated, not needed in repo)
+*.xpr
+*.xpe
+*.wdb
+*.wcfg
+*.data
+*.pb
+*.dcp
+
+# Vivado log and journal files
+*.jou
+*.log
+*.str
+vivado*.backup.*
+hs_err_pid*
+vivado_pid*
+
+# Synthesis and implementation reports (optional - uncomment to keep them)
+*.rpt
+*.rpx
+*.vdi
+
+# Bitstream files (optional - uncomment to keep them in repo)
+# *.bit
+# *.bin
+# *.mcs
+
+# Simulation files
+*.vcd
+*.saif
+*.wlf
+xsim.dir/
+modelsim.ini
+transcript
+work/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# VS Code workspace settings (keep extensions.json and tasks.json)
+.vscode/.browse.c_cpp.db*
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/ipch/
+
+# Python (if using Cocotb or other Python tools)
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Backup and temporary files
+*~
+*.swp
+*.swo
+*.bak
+*.backup
+*.tmp
+
+# User-specific files (optional)
+# Uncomment if you don't want to share specific configurations
+# scripts/config.tcl

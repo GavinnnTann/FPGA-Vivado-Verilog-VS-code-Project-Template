@@ -9,7 +9,7 @@
 set PROJECT_NAME "cmod_a7_project"
 
 # Top module name (the main Verilog module to synthesize)
-set TOP_MODULE "blink"
+set TOP_MODULE "s7seg"
 
 # FPGA part number
 # Default: xc7a35tcpg236-1 (CMOD A7)
@@ -18,10 +18,10 @@ set PART_NAME "xc7a35tcpg236-1"
 
 # Source files configuration
 # Option 1: Specific file (recommended for single-file projects)
-set SOURCE_FILES [list "blink.v"]
+# set SOURCE_FILES [list "7seg.v"]
 
 # Option 2: Multiple specific files (uncomment and edit as needed)
-# set SOURCE_FILES [list "top_module.v" "submodule1.v" "submodule2.v"]
+set SOURCE_FILES [list "7seg_top.v" "7seg.v"]
 
 # Option 3: All .v files in src/ (uncomment to use all Verilog files)
 # set SOURCE_FILES "*.v"

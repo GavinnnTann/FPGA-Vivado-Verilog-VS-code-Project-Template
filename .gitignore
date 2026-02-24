@@ -77,3 +77,7 @@ __pycache__/
 # User-specific files (optional)
 # Uncomment if you don't want to share specific configurations
 # scripts/config.tcl
+
+# Specific source files to ignore
+src/7seg_top.v
+src/7seg.v

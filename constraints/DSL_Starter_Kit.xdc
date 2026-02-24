@@ -49,7 +49,7 @@ set_property -dict { PACKAGE_PIN N3    IOSTANDARD LVCMOS33 } [get_ports { key0 }
 #set_property -dict { PACKAGE_PIN R2    IOSTANDARD LVCMOS33 } [get_ports { pio28 }]; #IO_L1P_T0_34 Sch=pio[28]
 
 ## 7 Segment Display - Segment
-set_property -dict { PACKAGE_PIN B15   IOSTANDARD LVCMOS33 } [get_ports { seg[7] }]; #IO_L11N_T1_SRCC_16 Sch=pio[08]
+#set_property -dict { PACKAGE_PIN B15   IOSTANDARD LVCMOS33 } [get_ports { seg[7] }]; #IO_L11N_T1_SRCC_16 Sch=pio[08] - seg is only [6:0], B15 is used for dp
 set_property -dict { PACKAGE_PIN K3    IOSTANDARD LVCMOS33 } [get_ports { seg[6] }]; #IO_L7N_T1_AD6N_35 Sch=pio[04]
 set_property -dict { PACKAGE_PIN A14   IOSTANDARD LVCMOS33 } [get_ports { seg[5] }]; #IO_L6P_T0_16 Sch=pio[09]
 set_property -dict { PACKAGE_PIN K2    IOSTANDARD LVCMOS33 } [get_ports { seg[4] }]; #IO_L5P_T0_AD13P_35 Sch=pio[12]
@@ -57,6 +57,9 @@ set_property -dict { PACKAGE_PIN J3    IOSTANDARD LVCMOS33 } [get_ports { seg[3]
 set_property -dict { PACKAGE_PIN H1    IOSTANDARD LVCMOS33 } [get_ports { seg[2] }]; #IO_L3P_T0_DQS_AD5P_35 Sch=pio[06]
 set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVCMOS33 } [get_ports { seg[1] }]; #IO_L12P_T1_MRCC_16 Sch=pio[03]
 set_property -dict { PACKAGE_PIN J1    IOSTANDARD LVCMOS33 } [get_ports { seg[0] }]; #IO_L3N_T0_DQS_AD5N_35 Sch=pio[11]
+
+## 7 Segment Display - Decimal Point
+set_property -dict { PACKAGE_PIN B15   IOSTANDARD LVCMOS33 } [get_ports { dp }]; #IO_L11N_T1_SRCC_16 Sch=pio[08]
 
 ## 7 Segment Display - Hex(Digits)
 set_property -dict { PACKAGE_PIN N2    IOSTANDARD LVCMOS33 } [get_ports { hex[5] }]; #IO_L10P_T1_AD15P_35 Sch=pio[22]

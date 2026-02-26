@@ -86,9 +86,9 @@ __pycache__/
 src_main/
 Homework/
 constraints/stopwatch.xdc
-testbenches/stopwatch_tb.v
-testbenches/i2s_master_tb.v
-testbenches/acoustic_top_tb.v
+testbench/stopwatch_tb.v
+testbench/i2s_master_tb.v
+testbench/acoustic_top_tb.v
 testbench/fft_512_tb.v
 constraints/acoustic_fingerprint.xdc
 .github/prompts/plan-fpgaAcousticFingerprint.prompt.md

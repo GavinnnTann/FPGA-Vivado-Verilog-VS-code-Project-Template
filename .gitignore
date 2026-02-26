@@ -86,6 +86,12 @@ __pycache__/
 src_main/
 Homework/
 constraints/stopwatch.xdc
+testbenches/stopwatch_tb.v
+testbenches/i2s_master_tb.v
+testbenches/acoustic_top_tb.v
+testbench/fft_512_tb.v
+constraints/acoustic_fingerprint.xdc
+.github/prompts/plan-fpgaAcousticFingerprint.prompt.md
 
 # Specific template source files to ignore (optional cleanup)
 src/7seg_top.v

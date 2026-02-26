@@ -28,7 +28,20 @@ $projectRoot = Split-Path -Parent $scriptDir
 $buildTcl = Join-Path $scriptDir "build.tcl"
 $programTcl = Join-Path $scriptDir "program.tcl"
 $simulateTcl = Join-Path $scriptDir "simulate.tcl"
-$buildDir = Join-Path $projectRoot "build"
+
+# Read BUILD_DIR from config.tcl to stay in sync with Vivado scripts
+$configFile = Join-Path $scriptDir "config.tcl"
+$buildDirLine = Select-String -Path $configFile -Pattern '^\s*set\s+BUILD_DIR\s+"([^"]+)"' | Select-Object -First 1
+if ($buildDirLine) {
+    $configBuildDir = $buildDirLine.Matches[0].Groups[1].Value
+    if ([System.IO.Path]::IsPathRooted($configBuildDir)) {
+        $buildDir = $configBuildDir
+    } else {
+        $buildDir = Join-Path $projectRoot $configBuildDir
+    }
+} else {
+    $buildDir = Join-Path $projectRoot "build"
+}
 
 # Function to run Vivado in batch mode
 function Invoke-Vivado {

@@ -3,7 +3,7 @@
 
 # Set directory paths (relative to script location)
 set script_dir [file dirname [file normalize [info script]]]
-set src_dir [file normalize "$script_dir/../src"]
+set src_dir [file normalize "$script_dir/../src_main"]
 set constraints_dir [file normalize "$script_dir/../constraints"]
 
 # Load project configuration
@@ -16,7 +16,12 @@ if {![file exists $config_file]} {
 source $config_file
 
 # Set project directory based on config
-set project_dir [file normalize "$script_dir/../$BUILD_DIR"]
+# Support both absolute and relative BUILD_DIR paths
+if {[file pathtype $BUILD_DIR] eq "absolute"} {
+    set project_dir [file normalize $BUILD_DIR]
+} else {
+    set project_dir [file normalize "$script_dir/../$BUILD_DIR"]
+}
 set project_name $PROJECT_NAME
 set part_name $PART_NAME
 

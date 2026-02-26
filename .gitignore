@@ -78,6 +78,15 @@ __pycache__/
 # Uncomment if you don't want to share specific configurations
 # scripts/config.tcl
 
-# Specific source files to ignore
+# ===================================================================
+# Personal Projects Directory
+# ===================================================================
+# Keep your personal FPGA projects private - only template examples
+# in src/ folder will be public
+src_main/
+Homework/
+constraints/stopwatch.xdc
+
+# Specific template source files to ignore (optional cleanup)
 src/7seg_top.v
 src/7seg.v

@@ -9,6 +9,7 @@ A reusable, configurable template for FPGA development with Verilog, Xilinx Viva
 - **📦 Multi-Board Support**: Easy switching between FPGA boards
 - **🔧 VS Code Integration**: Tasks for one-click builds and programming
 - **📚 Example Projects**: LED blinker, switch display, and reaction game included
+- **🔒 Private Project Folder**: Keep personal projects private with `src_main/` (git-ignored)
 
 ## 📁 Project Structure
 
@@ -20,8 +21,12 @@ A reusable, configurable template for FPGA development with Verilog, Xilinx Viva
 │   ├── extensions.json             # Recommended VS Code extensions
 │   ├── settings.json               # Workspace settings
 │   └── tasks.json                  # Build tasks
-├── src/
-│   └── blink.v                     # Example: LED blink module
+├── src/                            # 📚 Template examples (public)
+│   ├── blink.v                     # Example: LED blink module
+│   ├── switch_display.v            # Example: Switch to LED mapping
+│   └── reaction_game.v             # Example: Reaction game
+├── src_main/                       # 🔒 YOUR PROJECTS (git-ignored, private)
+│   └── README.md                   # Instructions for personal projects
 ├── constraints/
 │   └── cmod_a7.xdc                 # Pin constraints for CMOD A7
 ├── testbench/
@@ -68,7 +73,48 @@ A reusable, configurable template for FPGA development with Verilog, Xilinx Viva
 
 > 📖 See [TEMPLATE_GUIDE.md](TEMPLATE_GUIDE.md) for detailed configuration options
 
-## 🔧 Development Workflow
+## � Private Projects vs Public Template
+
+This template uses a **dual-folder approach** to let you maintain public template examples while keeping your personal projects private:
+
+- **`src/`** - Template examples (public, tracked in git)
+  - Contains reference designs: `blink.v`, `switch_display.v`, `reaction_game.v`, etc.
+  - These files are shared publicly as examples for others to learn from
+  
+- **`src_main/`** - Your personal projects (private, git-ignored)
+  - **All files here are automatically excluded from git**
+  - Place your custom Verilog projects here
+  - Build system is pre-configured to use this folder
+
+### Using Personal Projects Folder
+
+1. **Create your Verilog files in `src_main/`:**
+   ```powershell
+   # Copy a template example to get started
+   Copy-Item src\blink.v src_main\my_project.v
+   ```
+
+2. **Edit `scripts/config.tcl`:**
+   ```tcl
+   set PROJECT_NAME "my_project"
+   set TOP_MODULE "my_top"
+   set SOURCE_FILES [list "my_project.v"]
+   # Or use "*.v" to include all files in src_main/
+   ```
+
+3. **Build and program normally** - everything already points to `src_main/`
+
+### Switching to Template Examples
+
+To build and test template examples from `src/`:
+1. Temporarily edit `scripts/build.tcl` line 4: change `src_main` back to `src`
+2. Update `config.tcl` to reference the template module
+3. Build and test
+4. Switch back to `src_main` for your personal work
+
+> 💡 **Tip:** Your personal projects in `src_main/` will never be pushed to GitHub, keeping your work private while you maintain and share the template!
+
+## �🔧 Development Workflow
 
 ### Option 1: Using VS Code Tasks (Recommended)
 
@@ -253,4 +299,5 @@ Feel free to submit issues, fork the repository, and create pull requests for im
 
 ---
 
+**Created by Gavin Tan**
 **Made for SUTD Engineering Product Development Digital Systems Lab (Year 2026)**

@@ -21,7 +21,7 @@ set SOURCE_FILES [list "my_top_module.v"]
 # For multiple files:
 # set SOURCE_FILES [list "top.v" "counter.v" "display.v"]
 
-# Or include ALL .v files in src/:
+# Or include ALL .v files in src_main/:
 # set SOURCE_FILES "*.v"
 
 # 4. (Optional) Change FPGA part if using different board
@@ -33,8 +33,18 @@ set SOURCE_FILES [list "my_top_module.v"]
 
 ### 📂 Add Your Verilog Files
 
-1. Place your `.v` files in the `src/` directory
-2. Place your `.xdc` constraint files in the `constraints/` directory
+**For Personal Projects (Recommended - Private):**
+1. Place your `.v` files in the `src_main/` directory
+2. These files are **automatically git-ignored** and won't be pushed to GitHub
+3. Perfect for personal projects you want to keep private
+
+**For Template Examples (Public):**
+1. Place example `.v` files in the `src/` directory
+2. These files are tracked in git and shared publicly
+3. Use for reference designs and teaching examples
+
+**Constraint Files:**
+- Place your `.xdc` constraint files in the `constraints/` directory
 
 ### ▶️ Build and Run
 
@@ -144,15 +154,18 @@ set PART_NAME "xc7a35tcpg236-1"
 
 1. **Module name must match**: Ensure your `TOP_MODULE` name matches the actual module name in your Verilog file
 
-2. **File paths**: Source files are relative to `src/` directory, constraint files relative to `constraints/` directory
+2. **File paths**: Source files are relative to `src_main/` directory by default (or `src/` for template examples), constraint files relative to `constraints/` directory
+
+3. **Private vs Public**: Files in `src_main/` are git-ignored (private), files in `src/` are public (template examples)
 
 3. **No script editing needed**: After setting up config.tcl, all build scripts automatically use your configuration
 
 4. **Version control**: Commit your config.tcl to track project settings
 
 ## 🐛 Troubleshooting
-
-**Error: Source file not found**
+_main/` directory (or `src/` for templates)
+- Verify the filename in `SOURCE_FILES` matches exactly (case-sensitive)
+- If using template examples, temporarily change `build.tcl` line 4 from `src_main` to `src`
 - Check that your .v file exists in the `src/` directory
 - Verify the filename in `SOURCE_FILES` matches exactly (case-sensitive)
 

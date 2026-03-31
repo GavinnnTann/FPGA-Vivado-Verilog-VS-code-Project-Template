@@ -3,7 +3,7 @@
 
 param(
     [Parameter(Mandatory=$false)]
-    [ValidateSet('build', 'program', 'clean', 'all', 'simulate')]
+    [ValidateSet('build', 'program', 'flash', 'clean', 'all', 'allflash', 'simulate')]
     [string]$Action = 'build',
     
     [Parameter(Mandatory=$false)]
@@ -27,6 +27,7 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $projectRoot = Split-Path -Parent $scriptDir
 $buildTcl = Join-Path $scriptDir "build.tcl"
 $programTcl = Join-Path $scriptDir "program.tcl"
+$flashTcl = Join-Path $scriptDir "flash.tcl"
 $simulateTcl = Join-Path $scriptDir "simulate.tcl"
 
 # Read BUILD_DIR from config.tcl to stay in sync with Vivado scripts
@@ -76,6 +77,18 @@ switch ($Action) {
         Invoke-Vivado -TclScript $programTcl
         Write-Success "Programming completed successfully!"
     }
+
+    'flash' {
+        Write-Info "=== Flashing FPGA Configuration Memory ==="
+        # Check if any .bit file exists in the implementation directory
+        $bitFiles = Get-ChildItem -Path "$buildDir\cmod_a7_project.runs\impl_1\*.bit" -ErrorAction SilentlyContinue
+        if (-not $bitFiles) {
+            Write-Error "Bitstream not found! Please run build first."
+            exit 1
+        }
+        Invoke-Vivado -TclScript $flashTcl
+        Write-Success "Flash programming completed successfully!"
+    }
     
     'clean' {
         Write-Info "=== Cleaning Build Directory ==="
@@ -94,6 +107,15 @@ switch ($Action) {
         Start-Sleep -Seconds 2
         Invoke-Vivado -TclScript $programTcl
         Write-Success "Programming completed successfully!"
+    }
+
+    'allflash' {
+        Write-Info "=== Building and Flashing Configuration Memory ==="
+        Invoke-Vivado -TclScript $buildTcl
+        Write-Success "Build completed successfully!"
+        Start-Sleep -Seconds 2
+        Invoke-Vivado -TclScript $flashTcl
+        Write-Success "Flash programming completed successfully!"
     }
     
     'simulate' {

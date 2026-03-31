@@ -299,5 +299,5 @@ Feel free to submit issues, fork the repository, and create pull requests for im
 
 ---
 
-**Created by Gavin Tan**
+**Created by Gavin Tan SUTD-EPD**
 **Made for SUTD Engineering Product Development Digital Systems Lab (Year 2026)**

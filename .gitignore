@@ -85,14 +85,22 @@ __pycache__/
 # in src/ folder will be public
 src_main/
 Homework/
+Display_codes/
 constraints/stopwatch.xdc
 testbench/stopwatch_tb.v
 testbench/i2s_master_tb.v
 testbench/acoustic_top_tb.v
 testbench/fft_512_tb.v
 constraints/acoustic_fingerprint.xdc
+constraints/recorder.xdc
+constraints/uart_adc.xdc
 .github/prompts/plan-fpgaAcousticFingerprint.prompt.md
 
 # Specific template source files to ignore (optional cleanup)
 src/7seg_top.v
 src/7seg.v
+src/clk_div.v
+src/drv_7segment.v
+src/drv_mcp3202.v
+src/drv_uart_tx.v
+src/top_module.v

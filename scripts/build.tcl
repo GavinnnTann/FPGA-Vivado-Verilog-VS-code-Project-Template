@@ -79,6 +79,16 @@ if {[llength $CONSTRAINT_FILES] == 1 && [string match "*\**" $CONSTRAINT_FILES]}
 # Set top module from configuration
 set_property top $TOP_MODULE [current_fileset]
 
+# Set Verilog include directories (for `include directives)
+set_property include_dirs [list $src_dir] [current_fileset]
+
+# Add ROM data files (.hex) if present in src_main
+set hex_files [glob -nocomplain $src_dir/*.hex]
+if {[llength $hex_files] > 0} {
+    add_files $hex_files
+    puts "Added [llength $hex_files] hex data file(s)"
+}
+
 # Update compile order
 update_compile_order -fileset sources_1
 

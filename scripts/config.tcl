@@ -9,8 +9,9 @@
 set PROJECT_NAME "cmod_a7_project"
 
 # Top module name (the main Verilog module to synthesize)
-# IMPORTANT: Change this to match your top-level module in src_main/
-set TOP_MODULE "Stopwatch"
+# Active target for ESP32 display UART integration:
+#   recorder_top -> 6-byte frame: AA 55 result rms flags checksum @ 1,000,000 baud
+set TOP_MODULE "recorder_top"
 
 # FPGA part number
 # Default: xc7a35tcpg236-1 (CMOD A7)
@@ -28,14 +29,16 @@ set PART_NAME "xc7a35tcpg236-1"
 
 # Option 3: All .v files in src_main/ (uncomment to use all Verilog files)
 # set SOURCE_FILES "*.v"
-set SOURCE_FILES [list "Stopwatch.v"]
+# Keep this list explicit to avoid accidentally building legacy src/top_module.v.
+set SOURCE_FILES [list "recorder_top.v" "i2s_receiver.v" "uart_tx.v"]
 
 # Constraint files configuration
 # Option 1: Use all XDC files in constraints/ directory (default)
 # set CONSTRAINT_FILES "*.xdc"
 
 # Option 2: Specific constraint file (uncomment and edit as needed)
-set CONSTRAINT_FILES [list "stopwatch.xdc"]
+# recorder.xdc maps uart_tx to edge Pin 18 (PACKAGE_PIN N3) for CMOD A7 -> ESP32 RX wiring.
+set CONSTRAINT_FILES [list "recorder.xdc"]
 
 # ===================================================================
 # Advanced Settings (usually don't need to change)

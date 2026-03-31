@@ -6,6 +6,7 @@ A reusable, configurable template for FPGA development with Verilog, Xilinx Viva
 
 - **🎯 Centralized Configuration**: Single `config.tcl` file to configure all project settings
 - **🤖 Automated Build System**: PowerShell and TCL scripts for synthesis, implementation, and programming
+- **💾 Non-Volatile Flash Support**: Program configuration memory so design persists after power cycle
 - **📦 Multi-Board Support**: Easy switching between FPGA boards
 - **🔧 VS Code Integration**: Tasks for one-click builds and programming
 - **📚 Example Projects**: LED blinker, switch display, and reaction game included
@@ -35,6 +36,7 @@ A reusable, configurable template for FPGA development with Verilog, Xilinx Viva
 │   ├── config.tcl                  # ⚙️ PROJECT CONFIGURATION (edit this!)
 │   ├── build.tcl                   # Vivado synthesis & implementation
 │   ├── program.tcl                 # FPGA programming script
+│   ├── flash.tcl                   # Non-volatile configuration flash programming
 │   └── build.ps1                   # PowerShell automation script
 ├── build/                          # Generated artifacts (git-ignored)
 ├── .gitignore
@@ -116,6 +118,15 @@ To build and test template examples from `src/`:
 
 ## �🔧 Development Workflow
 
+### Recommended Release Flow (Verify Then Flash)
+
+Use this sequence for reliable bring-up:
+
+1. Build the design (`build` or `Build FPGA Design`).
+2. Program volatile SRAM (`program` or `Program FPGA`) and verify behavior on hardware.
+3. If verification passes, flash configuration memory (`flash` or `Flash FPGA (Non-Volatile)`).
+4. Power-cycle the board and confirm auto-boot from flash.
+
 ### Option 1: Using VS Code Tasks (Recommended)
 
 1. **Build the design:**
@@ -126,11 +137,19 @@ To build and test template examples from `src/`:
    - Press `Ctrl+Shift+P` → `Tasks: Run Task` → `Program FPGA`
    - Programs the connected CMOD A7 board
 
-3. **Build and Program:**
+3. **Flash configuration memory (non-volatile):**
+   - Press `Ctrl+Shift+P` → `Tasks: Run Task` → `Flash FPGA (Non-Volatile)`
+   - Writes bitstream into external configuration flash (boots after power cycle)
+
+4. **Build and Program:**
    - Run task: `Build and Program FPGA`
    - Does both in one step
 
-4. **Clean build artifacts:**
+5. **Build and Flash:**
+   - Run task: `Build and Flash FPGA`
+   - Builds bitstream, then flashes configuration memory
+
+6. **Clean build artifacts:**
    - Run task: `Clean Build`
 
 ### Option 2: Using PowerShell Script
@@ -144,6 +163,12 @@ To build and test template examples from `src/`:
 
 # Build and program
 .\scripts\build.ps1 -Action all
+
+# Flash only (non-volatile, persists after power cycle)
+.\scripts\build.ps1 -Action flash
+
+# Build and flash
+.\scripts\build.ps1 -Action allflash
 
 # Clean build directory
 .\scripts\build.ps1 -Action clean
@@ -160,7 +185,17 @@ vivado -mode batch -source scripts/build.tcl
 
 # Program FPGA
 vivado -mode batch -source scripts/program.tcl
+
+# Flash non-volatile configuration memory
+vivado -mode batch -source scripts/flash.tcl
 ```
+
+### Volatile vs Non-Volatile Programming
+
+- `program` writes the FPGA SRAM image only; configuration is lost after power-off.
+- `flash` writes the external configuration memory; FPGA reloads design automatically on next boot.
+- `all` = build + volatile program.
+- `allflash` = build + non-volatile flash.
 
 ## 📝 Writing Verilog Code
 

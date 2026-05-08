@@ -13,10 +13,10 @@ set PROJECT_NAME "cmod_a7_project"
 #   recorder_top -> 6-byte frame: AA 55 result rms flags checksum @ 1,000,000 baud
 set TOP_MODULE "recorder_top"
 
-# FPGA part number
-# Default: xc7a35tcpg236-1 (CMOD A7)
-# Change this if using a different FPGA board
-set PART_NAME "xc7a35tcpg236-1"
+# Target board
+# Must match a directory name under boards/ (e.g. cmod_a7, basys3, arty_a7_35t, nexys_a7_100t)
+# PART_NAME and flash parameters are loaded automatically from boards/<BOARD>/board.tcl
+set BOARD "cmod_a7"
 
 # Source files configuration
 # NOTE: Files are now loaded from src_main/ (for personal projects)

@@ -15,6 +15,19 @@ if {![file exists $config_file]} {
 }
 source $config_file
 
+# Load board configuration (sets PART_NAME and flash parameters)
+set board_file [file normalize "$script_dir/../boards/$BOARD/board.tcl"]
+if {![file exists $board_file]} {
+    puts "ERROR: Board '$BOARD' not found: $board_file"
+    puts "Available boards:"
+    foreach d [glob -nocomplain -type d [file normalize "$script_dir/../boards/*"]] {
+        puts "  [file tail $d]"
+    }
+    exit 1
+}
+source $board_file
+puts "INFO: Board: $BOARD_DISPLAY_NAME ($PART_NAME)"
+
 # Set project directory based on config
 # Support both absolute and relative BUILD_DIR paths
 if {[file pathtype $BUILD_DIR] eq "absolute"} {

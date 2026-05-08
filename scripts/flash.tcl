@@ -13,6 +13,15 @@ if {![file exists $config_file]} {
 }
 source $config_file
 
+# Load board configuration (sets CFGMEM_CANDIDATES, CFGMEM_SIZE_MB, CFGMEM_INTERFACE)
+set board_file [file normalize "$script_dir/../boards/$BOARD/board.tcl"]
+if {![file exists $board_file]} {
+    puts "ERROR: Board '$BOARD' not found: $board_file"
+    exit 1
+}
+source $board_file
+puts "INFO: Flash target board: $BOARD_DISPLAY_NAME"
+
 # Set paths based on configuration
 if {[file pathtype $BUILD_DIR] eq "absolute"} {
     set project_dir [file normalize $BUILD_DIR]
@@ -47,21 +56,9 @@ if {$device eq ""} {
 current_hw_device $device
 refresh_hw_device $device
 
-# Resolve a compatible flash part dynamically across Vivado/device variants.
-# Prefer single-device SPI definitions known to work on CMOD A7 (Artix-7).
+# Resolve a compatible flash part using the board-provided candidate list.
 set cfgmem_part ""
-set cfgmem_candidates [list \
-    "mx25l3273f-spi-x1_x2_x4" \
-    "s25fl128sxxxxxx0-spi-x1_x2_x4" \
-    "s25fl128sxxxxxx1-spi-x1_x2_x4" \
-    "s25fl128l-spi-x1_x2_x4" \
-    "mt25ql128-spi-x1_x2_x4" \
-    "mx25l3273f*spi*" \
-    "s25fl128*spi*" \
-    "mt25ql128*spi*" \
-]
-
-foreach pattern $cfgmem_candidates {
+foreach pattern $CFGMEM_CANDIDATES {
     set matches [get_cfgmem_parts $pattern]
     if {[llength $matches] > 0} {
         set cfgmem_part [lindex $matches 0]
@@ -70,20 +67,17 @@ foreach pattern $cfgmem_candidates {
 }
 
 if {$cfgmem_part eq ""} {
-    puts "ERROR: Unable to find a supported 128-Mbit SPI cfgmem part in this Vivado install."
-    puts "Hint: run 'get_cfgmem_parts *spi*' in Vivado Tcl console to inspect available parts."
+    puts "ERROR: No cfgmem part matched the candidates for board '$BOARD'."
+    puts "Hint: run 'get_cfgmem_parts *spi*' in the Vivado Tcl console to see available parts."
+    puts "Then add the correct part name to boards/$BOARD/board.tcl (CFGMEM_CANDIDATES)."
     close_hw_target
     disconnect_hw_server
     close_hw_manager
     exit 1
 }
 
-puts "Using cfgmem part: $cfgmem_part"
-
-set cfgmem_size_mb 16
-if {[string match "*3273f*" $cfgmem_part]} {
-    set cfgmem_size_mb 4
-}
+puts "INFO: Using cfgmem part: $cfgmem_part"
+set cfgmem_size_mb $CFGMEM_SIZE_MB
 
 # Attach configuration memory object to current device.
 create_hw_cfgmem -hw_device $device [lindex [get_cfgmem_parts $cfgmem_part] 0]
@@ -94,7 +88,7 @@ puts "Generating cfgmem image: $cfgmem_file"
 write_cfgmem -force \
     -format mcs \
     -size $cfgmem_size_mb \
-    -interface SPIx1 \
+    -interface $CFGMEM_INTERFACE \
     -loadbit "up 0x0 $bitstream_file" \
     -file $cfgmem_file
 
